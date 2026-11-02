@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<maintenanceSystem:MaintenanceSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:maintenanceSystem="http://www.example.org/maintenanceSystem" name="Motor Health" Description="This is maintenance system for Servo Motor" samplingTimeInMs="1000">
+  <systemstructure>
+    <board>
+      <machine name="Motor" Model="Servo" Manufacturer="Graupner">
+        <sensor name="Temperature Sensor" unit="Degree">
+          <pingroups name="TempPins">
+            <pins name="TempSignal" pinNumber="0"/>
+            <pins name="TempVCC" pinNumber="1" pinType="VCC_5V"/>
+            <pins name="TempGround" pinNumber="2" pinType="GND"/>
+          </pingroups>
+        </sensor>
+        <sensor name="LowVibration" Type="VibrationSmallSound" unit="raw">
+          <pingroups name="LowVibrationPinGroup">
+            <pins name="VibAOUT" pinNumber="0" pinType="ANALOG_IN"/>
+            <pins name="VibGND" pinNumber="1" pinType="GND"/>
+            <pins name="VibVCC" pinNumber="2" pinType="VCC_5V"/>
+            <pins name="VibDOUT" pinNumber="3"/>
+          </pingroups>
+        </sensor>
+      </machine>
+      <pingroups name="AllPins">
+        <pins name="VCC3" pinNumber="0" pinType="VCC_3_3V"/>
+        <pins name="GND1" pinNumber="2" pinType="GND"/>
+        <pins name="VCC5" pinNumber="1" pinType="VCC_5V"/>
+        <pins name="GND2" pinNumber="3" pinType="GND"/>
+        <pins name="Vin" pinNumber="4" pinType="DC_PowerIN"/>
+        <pins name="A0" pinNumber="0" pinType="ANALOG_IN"/>
+        <pins name="A1" pinNumber="1" pinType="ANALOG_IN"/>
+        <pins name="A2" pinNumber="2" pinType="ANALOG_IN"/>
+        <pins name="A3" pinNumber="3" pinType="ANALOG_IN"/>
+        <pins name="A4" pinNumber="4" pinType="ANALOG_IN"/>
+        <pins name="A5" pinNumber="5" pinType="ANALOG_IN"/>
+        <pins name="D0"/>
+        <pins name="D1" pinNumber="1"/>
+        <pins name="D2" pinNumber="2"/>
+        <pins name="D3" pinNumber="3"/>
+        <pins name="D4" pinNumber="4"/>
+        <pins name="D5" pinNumber="5"/>
+        <pins name="D6" pinNumber="6"/>
+        <pins name="D7" pinNumber="7"/>
+        <pins name="D8" pinNumber="8"/>
+        <pins name="D9" pinNumber="9"/>
+        <pins name="D10" pinNumber="10"/>
+        <pins name="D11" pinNumber="11"/>
+        <pins name="D12" pinNumber="12"/>
+        <pins name="D13" pinNumber="13"/>
+        <pins name="GND3" pinNumber="3" pinType="GND"/>
+      </pingroups>
+    </board>
+    <alert name="Light" Message="Green when OK">
+      <pingroups name="RGB">
+        <pins name="RED" pinNumber="0" pinType="DIGITAL_OUT"/>
+        <pins name="Green" pinNumber="1" pinType="DIGITAL_OUT"/>
+        <pins name="BLUE" pinNumber="2" pinType="DIGITAL_OUT"/>
+      </pingroups>
+    </alert>
+    <alert name="Buzz sound" Message="Hey there's a problem !! " Action="ActiveBuzzer">
+      <pingroups name="BuzzPinGroup">
+        <pins name="BUZZGND" pinNumber="0" pinType="GND"/>
+        <pins name="Buzz_Signal" pinNumber="2" pinType="DIGITAL_OUT"/>
+      </pingroups>
+    </alert>
+    <connections name="TempGND" source="//@systemstructure/@board.0/@pingroups.0/@pins.1" target="//@systemstructure/@board.0/@machine/@sensor.0/@pingroups.0/@pins.2"/>
+    <connections name="TempSignal" source="//@systemstructure/@board.0/@pingroups.0/@pins.18" target="//@systemstructure/@board.0/@machine/@sensor.0/@pingroups.0/@pins.0"/>
+    <connections name="TempPower" source="//@systemstructure/@board.0/@pingroups.0/@pins.2" target="//@systemstructure/@board.0/@machine/@sensor.0/@pingroups.0/@pins.1"/>
+    <connections name="VibA" source="//@systemstructure/@board.0/@pingroups.0/@pins.7" target="//@systemstructure/@board.0/@machine/@sensor.1/@pingroups.0/@pins.0"/>
+    <connections name="VibD" source="//@systemstructure/@board.0/@pingroups.0/@pins.11" target="//@systemstructure/@board.0/@machine/@sensor.1/@pingroups.0/@pins.3"/>
+    <connections name="VibGND" source="//@systemstructure/@board.0/@pingroups.0/@pins.3" target="//@systemstructure/@board.0/@machine/@sensor.1/@pingroups.0/@pins.1"/>
+    <connections name="VibVCC" source="//@systemstructure/@board.0/@pingroups.0/@pins.2" target="//@systemstructure/@board.0/@machine/@sensor.1/@pingroups.0/@pins.2"/>
+    <connections name="RED_D9" source="//@systemstructure/@board.0/@pingroups.0/@pins.20" target="//@systemstructure/@alert.0/@pingroups.0/@pins.0"/>
+    <connections name="Green_D10" source="//@systemstructure/@board.0/@pingroups.0/@pins.21" target="//@systemstructure/@alert.0/@pingroups.0/@pins.1"/>
+    <connections name="Blue_D11" source="//@systemstructure/@board.0/@pingroups.0/@pins.22" target="//@systemstructure/@alert.0/@pingroups.0/@pins.2"/>
+    <connections name="BUZZ_GND" source="//@systemstructure/@board.0/@pingroups.0/@pins.25" target="//@systemstructure/@alert.1/@pingroups.0/@pins.0"/>
+    <connections name="BUZZ_Signal" source="//@systemstructure/@board.0/@pingroups.0/@pins.16" target="//@systemstructure/@alert.1/@pingroups.0/@pins.1"/>
+  </systemstructure>
+  <systembehavior>
+    <monitoringrule name="TemperatureRange" description="" enabled="true" triggers="//@systemstructure/@alert.0" observes="//@systemstructure/@board.0/@machine/@sensor.0">
+      <condition xsi:type="maintenanceSystem:RangeCondition" name="range equation" minRange="20" maxRange="23"/>
+    </monitoringrule>
+    <monitoringrule name="Greater than 23" description="Problem if temp is greater than 23" Severity="Warning" enabled="true" triggers="//@systemstructure/@alert.0" observes="//@systemstructure/@board.0/@machine/@sensor.0" AlertColor="RED">
+      <condition xsi:type="maintenanceSystem:ThresholdCondition" name="Greater equation" Threshold="26.0"/>
+    </monitoringrule>
+    <monitoringrule name="Vibration Greated than 200" description="Abnormal Vibration" Severity="Warning" triggers="//@systemstructure/@alert.1" observes="//@systemstructure/@board.0/@machine/@sensor.1" AlertColor="NAN">
+      <condition xsi:type="maintenanceSystem:ThresholdCondition" name="greater equation" Threshold="200.0"/>
+    </monitoringrule>
+  </systembehavior>
+</maintenanceSystem:MaintenanceSystem>

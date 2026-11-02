@@ -1,0 +1,13 @@
+# Eclipse workspace caches (hundreds of MB, machine-specific)
+.metadata/
+
+# Compiled output
+bin/
+*.class
+
+# OS junk
+Thumbs.db
+.DS_Store
+
+# Sirius backup
+*.aird.old

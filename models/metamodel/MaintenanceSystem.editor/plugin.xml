@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated maintenanceSystem -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="maintenanceSystem.presentation.MaintenanceSystemModelWizardID"
+            name="%_UI_MaintenanceSystemModelWizard_label"
+            class="maintenanceSystem.presentation.MaintenanceSystemModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/MaintenanceSystemModelFile.gif">
+         <description>%_UI_MaintenanceSystemModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated maintenanceSystem -->
+      <editor
+            id="maintenanceSystem.presentation.MaintenanceSystemEditorID"
+            name="%_UI_MaintenanceSystemEditor_label"
+            icon="icons/full/obj16/MaintenanceSystemModelFile.gif"
+            extensions="maintenancesystem"
+            class="maintenanceSystem.presentation.MaintenanceSystemEditor"
+            contributorClass="maintenanceSystem.presentation.MaintenanceSystemActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

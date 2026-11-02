@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description:Group xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:properties="http://www.eclipse.org/sirius/properties/1.0.0" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:tool="http://www.eclipse.org/sirius/diagram/description/tool/1.1.0" xmlns:tool_1="http://www.eclipse.org/sirius/description/tool/1.1.0" xmlns:validation="http://www.eclipse.org/sirius/description/validation/1.1.0" name="project" version="12.0.0.2017041100">
+  <ownedViewpoints name="Myviewpoint" modelFileExtension="*.maintenancesystem">
+    <validationSet>
+      <ownedRules xsi:type="validation:SemanticValidationRule" name="Range coherence" level="ERROR" message="minRange must be less than maxRange" targetClass="maintenanceSystem::RangeCondition">
+        <audits auditExpression="aql:self.minRange &lt; self.maxRange"/>
+      </ownedRules>
+      <ownedRules xsi:type="validation:SemanticValidationRule" name="MonitoringRuleCondition" level="WARNING" message="A MonitoringRule must define a Condition (Threshold, Range, or RateOfChange)" targetClass="maintenanceSystem::MonitoringRule">
+        <audits auditExpression="aql:self.condition &lt;> null"/>
+      </ownedRules>
+    </validationSet>
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="SystemStructureDiagram" domainClass="maintenanceSystem::SystemStructure" enablePopupBars="true">
+      <metamodel href="http://www.example.org/maintenanceSystem#/"/>
+      <defaultLayer name="Default">
+        <nodeMappings name="BoardNode" semanticCandidatesExpression="aql:self.board" domainClass="maintenanceSystem::Board">
+          <borderedNodeMappings name="BoardGroupPins" semanticCandidatesExpression="feature:pingroups" domainClass="maintenanceSystem::PinGroup">
+            <borderedNodeMappings name="BoardPin" semanticCandidatesExpression="feature:pins" synchronizationLock="true" domainClass="maintenanceSystem::Pin">
+              <style xsi:type="style:BundledImageDescription" labelSize="12" labelPosition="node" resizeKind="NSEW">
+                <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              </style>
+            </borderedNodeMappings>
+            <style xsi:type="style:BundledImageDescription" labelSize="12" labelAlignment="LEFT" sizeComputationExpression="12" labelPosition="node" resizeKind="NSEW">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </style>
+          </borderedNodeMappings>
+          <style xsi:type="style:WorkspaceImageDescription" labelSize="12" tooltipExpression="ArduinoMotorBoard" sizeComputationExpression="-1" labelPosition="node" resizeKind="NSEW" workspacePath="/MaintenanceSystem.project.design/Icons/arduino.png">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+          </style>
+        </nodeMappings>
+        <nodeMappings name="Machine" semanticCandidatesExpression="aql:self.board.machine" domainClass="maintenanceSystem::Machine">
+          <style xsi:type="style:WorkspaceImageDescription" labelSize="12" sizeComputationExpression="-1" labelPosition="node" resizeKind="NSEW" workspacePath="/MaintenanceSystem.project.design/Icons/svg/servo.svg">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+          </style>
+        </nodeMappings>
+        <nodeMappings name="SensorNode" semanticCandidatesExpression="aql:self.board.machine.sensor" domainClass="maintenanceSystem::Sensor">
+          <borderedNodeMappings name="SensorPinGroup" semanticCandidatesExpression="feature:pingroups" domainClass="maintenanceSystem::PinGroup">
+            <borderedNodeMappings name="PinSensor" semanticCandidatesExpression="feature:pins" domainClass="maintenanceSystem::Pin">
+              <style xsi:type="style:DotDescription" labelSize="12" labelPosition="node" resizeKind="NSEW">
+                <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+              </style>
+            </borderedNodeMappings>
+            <style xsi:type="style:SquareDescription" labelSize="12" tooltipExpression="GP" labelPosition="node" resizeKind="NSEW" width="6" height="15">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            </style>
+          </borderedNodeMappings>
+          <style xsi:type="style:BundledImageDescription" labelSize="12" labelPosition="node" resizeKind="NSEW">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+          </style>
+          <conditionnalStyles predicateExpression="aql:self.Type &lt;> null and (self.Type.toString() = 'DHT11' or self.Type.toString() = 'DigitalTemperature')">
+            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" sizeComputationExpression="-1" labelPosition="node" resizeKind="NSEW" workspacePath="/MaintenanceSystem.project.design/Icons/pir_sensor.png">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </style>
+          </conditionnalStyles>
+          <conditionnalStyles predicateExpression="aql:self.Type &lt;> null and (self.Type.toString() = 'VibrationBigSound' or self.Type.toString() = 'VibrationSmallSound')">
+            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" sizeComputationExpression="-1" labelPosition="node" resizeKind="NSEW" workspacePath="/MaintenanceSystem.project.design/Icons/svg/sound_sensor.svg">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </style>
+          </conditionnalStyles>
+        </nodeMappings>
+        <nodeMappings name="AlertNode" semanticCandidatesExpression="feature:alert" domainClass="maintenanceSystem::Alert">
+          <borderedNodeMappings name="AlertPinGroup" semanticCandidatesExpression="feature:pingroups" domainClass="maintenanceSystem::PinGroup">
+            <borderedNodeMappings name="AlertPin" semanticCandidatesExpression="feature:pins" domainClass="maintenanceSystem::Pin">
+              <style xsi:type="style:DotDescription" labelSize="12" labelPosition="node" resizeKind="NSEW">
+                <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+                <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='purple']"/>
+              </style>
+            </borderedNodeMappings>
+            <style xsi:type="style:SquareDescription" labelSize="12" tooltipExpression="GP" labelPosition="node" resizeKind="NSEW" width="6" height="15">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            </style>
+          </borderedNodeMappings>
+          <style xsi:type="style:BundledImageDescription" labelSize="12" labelPosition="node" resizeKind="NSEW">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+          </style>
+          <conditionnalStyles predicateExpression="aql:self.Action &lt;> null and self.Action.toString() = 'RGB_Led'">
+            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" sizeComputationExpression="-1" labelPosition="node" resizeKind="NSEW" workspacePath="/MaintenanceSystem.project.design/Icons/svg/led_unit.svg">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </style>
+          </conditionnalStyles>
+          <conditionnalStyles predicateExpression="aql:self.Action &lt;> null and (self.Action.toString() = 'ActiveBuzzer' or self.Action.toString() = 'PassiveBuzzer')">
+            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" sizeComputationExpression="-1" resizeKind="NSEW" workspacePath="/MaintenanceSystem.project.design/Icons/svg/touch_sensor.svg">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </style>
+          </conditionnalStyles>
+        </nodeMappings>
+        <edgeMappings name="HASMACHINE" sourceMapping="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@nodeMappings[name='BoardNode']" targetMapping="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@nodeMappings[name='Machine']" targetFinderExpression="feature:machine">
+          <style sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="12">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="Connection" semanticCandidatesExpression="feature:connections" sourceMapping="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@nodeMappings[name='BoardNode']/@borderedNodeMappings[name='BoardGroupPins']/@borderedNodeMappings[name='BoardPin']" targetMapping="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@nodeMappings[name='SensorNode']/@borderedNodeMappings[name='SensorPinGroup']/@borderedNodeMappings[name='PinSensor'] //@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@nodeMappings[name='AlertNode']/@borderedNodeMappings[name='AlertPinGroup']/@borderedNodeMappings[name='AlertPin']" targetFinderExpression="aql:self.target" sourceFinderExpression="aql:self.source" domainClass="maintenanceSystem::Connection" useDomainElement="true">
+          <style sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="12">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <toolSections name="StructureCreationTools">
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="CreateBoard" nodeMappings="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@nodeMappings[name='BoardNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="maintenanceSystem::Board" referenceName="board" variableName="newBoard">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="name" valueExpression="aql:'board'"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="Machine" nodeMappings="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@nodeMappings[name='Machine']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.board->first()">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="maintenanceSystem::Machine" referenceName="machine"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="SensorTemp DHT11" nodeMappings="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@nodeMappings[name='SensorNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.board->first().machine">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="maintenanceSystem::Sensor" referenceName="sensor">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="Type" valueExpression="0">
+                    <subModelOperations xsi:type="tool_1:SetValue" featureName="Type" valueExpression="0"/>
+                  </subModelOperations>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="DigitalTemperature" nodeMappings="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@nodeMappings[name='SensorNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.board->first().machine">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="maintenanceSystem::Sensor" referenceName="sensor">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="Type" valueExpression="1"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="VibrationBigSound" nodeMappings="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@nodeMappings[name='SensorNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.board->first().machine">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="maintenanceSystem::Sensor" referenceName="sensor">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="Type" valueExpression="2"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="VibrationSmallSound" nodeMappings="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@nodeMappings[name='SensorNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.board->first().machine">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="maintenanceSystem::Sensor" referenceName="sensor">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="Type" valueExpression="3"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="Alert RGB" nodeMappings="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@nodeMappings[name='AlertNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="maintenanceSystem::Alert" referenceName="alert">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="Action" valueExpression="0">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="Action" valueExpression="0"/>
+                </subModelOperations>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="Alert ActiveBuzzer" nodeMappings="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@nodeMappings[name='AlertNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="maintenanceSystem::Alert" referenceName="alert">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="Action" valueExpression="1"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="Alert PassiveBuzzer" nodeMappings="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@nodeMappings[name='AlertNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="maintenanceSystem::Alert" referenceName="alert">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="Action" valueExpression="2"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="Create PinGroups" forceRefresh="true" nodeMappings="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@nodeMappings[name='SensorNode']/@borderedNodeMappings[name='SensorPinGroup'] //@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@nodeMappings[name='BoardNode']/@borderedNodeMappings[name='BoardGroupPins'] //@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@nodeMappings[name='AlertNode']/@borderedNodeMappings[name='AlertPinGroup']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="maintenanceSystem::PinGroup" referenceName="pingroups"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="Pin" nodeMappings="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@nodeMappings[name='SensorNode']/@borderedNodeMappings[name='SensorPinGroup']/@borderedNodeMappings[name='PinSensor'] //@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@nodeMappings[name='AlertNode']/@borderedNodeMappings[name='AlertPinGroup']/@borderedNodeMappings[name='AlertPin'] //@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@nodeMappings[name='BoardNode']/@borderedNodeMappings[name='BoardGroupPins']/@borderedNodeMappings[name='BoardPin']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="maintenanceSystem::Pin" referenceName="pins"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="Connection" edgeMappings="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@edgeMappings[name='Connection']">
+            <sourceVariable name="preSource"/>
+            <targetVariable name="preTarget"/>
+            <sourceViewVariable name="preSourceView"/>
+            <targetViewVariable name="preTargetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.eContainer(maintenanceSystem::SystemStructure)">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="maintenanceSystem::Connection" referenceName="connections">
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="source" valueExpression="aql:preSource"/>
+                  <subModelOperations xsi:type="tool_1:SetValue" featureName="target" valueExpression="aql:preTarget"/>
+                </subModelOperations>
+                <subModelOperations xsi:type="tool:CreateEdgeView" mapping="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemStructureDiagram']/@defaultLayer/@edgeMappings[name='Connection']" containerViewExpression="aql:preSourceView.eContainer()" sourceExpression="aql:instance.source" targetExpression="aql:instance.target"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+      </defaultLayer>
+    </ownedRepresentations>
+    <ownedRepresentations xsi:type="description_1:DiagramDescription" name="SystemBehaviorDiagram" domainClass="maintenanceSystem::SystemBehavior" enablePopupBars="true">
+      <metamodel href="http://www.example.org/maintenanceSystem#/"/>
+      <defaultLayer name="Default">
+        <nodeMappings name="MonitoringRule" semanticCandidatesExpression="aql:self.monitoringrule" domainClass="maintenanceSystem::MonitoringRule">
+          <borderedNodeMappings name="Condition" semanticCandidatesExpression="aql:self.condition" domainClass="maintenanceSystem::Condition">
+            <style xsi:type="style:LozengeNodeDescription" labelSize="12" showIcon="false" labelPosition="node" resizeKind="NSEW">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='yellow']"/>
+            </style>
+          </borderedNodeMappings>
+          <style xsi:type="style:EllipseNodeDescription" labelSize="12" labelPosition="node" resizeKind="NSEW">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+          </style>
+        </nodeMappings>
+        <nodeMappings name="SensorNode" semanticCandidatesExpression="aql:self.eContainer(maintenanceSystem::MaintenanceSystem).systemstructure.board.machine.sensor" domainClass="maintenanceSystem::Sensor">
+          <style xsi:type="style:BundledImageDescription" labelSize="12" labelPosition="node" resizeKind="NSEW">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+          </style>
+          <conditionnalStyles predicateExpression="aql:self.Type &lt;> null and (self.Type.toString() = 'DHT11' or self.Type.toString() = 'DigitalTemperature')">
+            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" sizeComputationExpression="-1" labelPosition="node" resizeKind="NSEW" workspacePath="/MaintenanceSystem.project.design/Icons/pir_sensor.png">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </style>
+          </conditionnalStyles>
+          <conditionnalStyles predicateExpression="aql:self.Type &lt;> null and (self.Type.toString() = 'VibrationBigSound' or self.Type.toString() = 'VibrationSmallSound')">
+            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" sizeComputationExpression="-1" labelPosition="node" resizeKind="NSEW" workspacePath="/MaintenanceSystem.project.design/Icons/svg/sound_sensor.svg">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </style>
+          </conditionnalStyles>
+        </nodeMappings>
+        <nodeMappings name="AlertNode" semanticCandidatesExpression="aql:self.eContainer(maintenanceSystem::MaintenanceSystem).systemstructure.alert" domainClass="maintenanceSystem::Alert">
+          <style xsi:type="style:BundledImageDescription" labelSize="12" labelPosition="node" resizeKind="NSEW">
+            <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+          </style>
+          <conditionnalStyles predicateExpression="aql:self.Action &lt;> null and self.Action.toString() = 'RGB_Led'">
+            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" sizeComputationExpression="-1" labelPosition="node" resizeKind="NSEW" workspacePath="/MaintenanceSystem.project.design/Icons/svg/led_unit.svg">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </style>
+          </conditionnalStyles>
+          <conditionnalStyles predicateExpression="aql:self.Action &lt;> null and (self.Action.toString() = 'ActiveBuzzer' or self.Action.toString() = 'PassiveBuzzer')">
+            <style xsi:type="style:WorkspaceImageDescription" labelSize="12" sizeComputationExpression="-1" resizeKind="NSEW" workspacePath="/MaintenanceSystem.project.design/Icons/svg/touch_sensor.svg">
+              <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </style>
+          </conditionnalStyles>
+        </nodeMappings>
+        <edgeMappings name="observes" sourceMapping="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemBehaviorDiagram']/@defaultLayer/@nodeMappings[name='MonitoringRule']" targetMapping="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemBehaviorDiagram']/@defaultLayer/@nodeMappings[name='SensorNode']" targetFinderExpression="aql:self.observes">
+          <style sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="12" labelExpression="aql:'observes'">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <edgeMappings name="Triggers" sourceMapping="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemBehaviorDiagram']/@defaultLayer/@nodeMappings[name='MonitoringRule']" targetMapping="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemBehaviorDiagram']/@defaultLayer/@nodeMappings[name='AlertNode']" targetFinderExpression="aql:self.triggers">
+          <style sizeComputationExpression="2">
+            <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
+            <centerLabelStyleDescription labelSize="12" labelExpression="aql:'Triggers'">
+              <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
+            </centerLabelStyleDescription>
+          </style>
+        </edgeMappings>
+        <toolSections name="BehaviorTools">
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="MonitoringRule" nodeMappings="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemBehaviorDiagram']/@defaultLayer/@nodeMappings[name='MonitoringRule']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="maintenanceSystem::MonitoringRule" referenceName="monitoringrule"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="RangeCondition" nodeMappings="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemBehaviorDiagram']/@defaultLayer/@nodeMappings[name='MonitoringRule']/@borderedNodeMappings[name='Condition']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="maintenanceSystem::RangeCondition" referenceName="condition"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="Threshold Condition" nodeMappings="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemBehaviorDiagram']/@defaultLayer/@nodeMappings[name='MonitoringRule']/@borderedNodeMappings[name='Condition']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="maintenanceSystem::ThresholdCondition" referenceName="condition"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="RateOfChangeCondition" nodeMappings="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemBehaviorDiagram']/@defaultLayer/@nodeMappings[name='MonitoringRule']/@borderedNodeMappings[name='Condition']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="maintenanceSystem::RateOfChangeCondition" referenceName="condition"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="observes" edgeMappings="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemBehaviorDiagram']/@defaultLayer/@edgeMappings[name='observes']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:SetValue" featureName="observes" valueExpression="aql:target"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="triggers" edgeMappings="//@ownedViewpoints[name='Myviewpoint']/@ownedRepresentations[name='SystemBehaviorDiagram']/@defaultLayer/@edgeMappings[name='Triggers']">
+            <sourceVariable name="source"/>
+            <targetVariable name="target"/>
+            <sourceViewVariable name="sourceView"/>
+            <targetViewVariable name="targetView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:SetValue" featureName="triggers" valueExpression="aql:target"/>
+            </initialOperation>
+          </ownedTools>
+        </toolSections>
+      </defaultLayer>
+    </ownedRepresentations>
+  </ownedViewpoints>
+  <extensions xsi:type="properties:ViewExtensionDescription" name="Properties"/>
+</description:Group>

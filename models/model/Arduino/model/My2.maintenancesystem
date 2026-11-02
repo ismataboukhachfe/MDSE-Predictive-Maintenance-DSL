@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<maintenanceSystem:MaintenanceSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:maintenanceSystem="http://www.example.org/maintenanceSystem" name="Motor Health" Description="This is maintenance system for Servo Motor" samplingTimeInMs="1000">
+  <systemstructure>
+    <board name="board">
+      <machine name="Servo">
+        <sensor name="Temp"/>
+      </machine>
+      <pingroups>
+        <pins pinType="VCC_5V"/>
+      </pingroups>
+    </board>
+    <alert>
+      <pingroups>
+        <pins/>
+      </pingroups>
+    </alert>
+    <connections source="//@systemstructure/@board.0/@pingroups.0/@pins.0" target="//@systemstructure/@alert.0/@pingroups.0/@pins.0"/>
+  </systemstructure>
+  <systembehavior>
+    <monitoringrule name="TempSurveillance" triggers="//@systemstructure/@alert.0" observes="//@systemstructure/@board.0/@machine/@sensor.0">
+      <condition xsi:type="maintenanceSystem:RangeCondition" name="tshrg" minRange="21" maxRange="23"/>
+    </monitoringrule>
+  </systembehavior>
+</maintenanceSystem:MaintenanceSystem>

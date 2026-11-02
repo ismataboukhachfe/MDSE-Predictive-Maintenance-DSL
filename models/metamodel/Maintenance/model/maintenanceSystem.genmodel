@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+    modelDirectory="/MaintenanceSystem/src-gen" creationIcons="false"
+    editDirectory="/MaintenanceSystem.edit/src-gen" editorDirectory="/MaintenanceSystem.editor/src-gen"
+    modelPluginID="MaintenanceSystem" modelName="MaintenanceSystem" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    codeFormatting="true" importerID="org.eclipse.emf.importer.ecore" complianceLevel="21.0"
+    copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <foreignModel>maintenanceSystem.ecore</foreignModel>
+  <testsDirectory xsi:nil="true"/>
+  <genPackages prefix="MaintenanceSystem" disposableProviderFactory="true" ecorePackage="maintenanceSystem.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="maintenanceSystem.ecore#//Severity">
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//Severity/Normal"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//Severity/Warning"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//Severity/Critical"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="maintenanceSystem.ecore#//Operator">
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//Operator/GREATER"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//Operator/LESS"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//Operator/Equal"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//Operator/GreaterOrEqual"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//Operator/LessOrEqual"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="maintenanceSystem.ecore#//VariationOperator">
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//VariationOperator/INCREASING"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//VariationOperator/Decreasing"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//VariationOperator/Constant"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="maintenanceSystem.ecore#//ActionType">
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//ActionType/RGB_Led"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//ActionType/ActiveBuzzer"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//ActionType/PassiveBuzzer"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="maintenanceSystem.ecore#//PinType">
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//PinType/DIGITAL_IN"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//PinType/DIGITAL_OUT"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//PinType/GND"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//PinType/VCC_5V"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//PinType/VCC_3_3V"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//PinType/INTERRUPT"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//PinType/ANALOG_IN"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//PinType/ANALOG_OUT"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//PinType/DC_PowerIN"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="maintenanceSystem.ecore#//SensorType">
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//SensorType/DHT11"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//SensorType/DigitalTemperature"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//SensorType/VibrationBigSound"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//SensorType/VibrationSmallSound"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="maintenanceSystem.ecore#//AlertColor">
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//AlertColor/Green"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//AlertColor/RED"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//AlertColor/Blue"/>
+      <genEnumLiterals ecoreEnumLiteral="maintenanceSystem.ecore#//AlertColor/NAN"/>
+    </genEnums>
+    <genClasses ecoreClass="maintenanceSystem.ecore#//MaintenanceSystem">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//MaintenanceSystem/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//MaintenanceSystem/Description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//MaintenanceSystem/samplingTimeInMs"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference maintenanceSystem.ecore#//MaintenanceSystem/systemstructure"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference maintenanceSystem.ecore#//MaintenanceSystem/systembehavior"/>
+    </genClasses>
+    <genClasses ecoreClass="maintenanceSystem.ecore#//Machine">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//Machine/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//Machine/Model"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//Machine/Manufacturer"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference maintenanceSystem.ecore#//Machine/sensor"/>
+    </genClasses>
+    <genClasses ecoreClass="maintenanceSystem.ecore#//Sensor">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//Sensor/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//Sensor/Type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//Sensor/unit"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference maintenanceSystem.ecore#//Sensor/pingroups"/>
+    </genClasses>
+    <genClasses ecoreClass="maintenanceSystem.ecore#//MonitoringRule">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//MonitoringRule/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//MonitoringRule/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//MonitoringRule/Severity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//MonitoringRule/enabled"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference maintenanceSystem.ecore#//MonitoringRule/triggers"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference maintenanceSystem.ecore#//MonitoringRule/condition"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference maintenanceSystem.ecore#//MonitoringRule/observes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//MonitoringRule/AlertColor"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="maintenanceSystem.ecore#//Condition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//Condition/name"/>
+    </genClasses>
+    <genClasses ecoreClass="maintenanceSystem.ecore#//RangeCondition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//RangeCondition/minRange"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//RangeCondition/maxRange"/>
+    </genClasses>
+    <genClasses ecoreClass="maintenanceSystem.ecore#//ThresholdCondition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//ThresholdCondition/Operator"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//ThresholdCondition/Threshold"/>
+    </genClasses>
+    <genClasses ecoreClass="maintenanceSystem.ecore#//RateOfChangeCondition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//RateOfChangeCondition/VarOperator"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//RateOfChangeCondition/ChangeRate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//RateOfChangeCondition/timeInterval"/>
+    </genClasses>
+    <genClasses ecoreClass="maintenanceSystem.ecore#//Alert">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//Alert/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//Alert/Message"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//Alert/Action"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference maintenanceSystem.ecore#//Alert/pingroups"/>
+    </genClasses>
+    <genClasses ecoreClass="maintenanceSystem.ecore#//Board">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference maintenanceSystem.ecore#//Board/machine"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//Board/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference maintenanceSystem.ecore#//Board/pingroups"/>
+    </genClasses>
+    <genClasses ecoreClass="maintenanceSystem.ecore#//SystemStructure">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference maintenanceSystem.ecore#//SystemStructure/board"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference maintenanceSystem.ecore#//SystemStructure/alert"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference maintenanceSystem.ecore#//SystemStructure/connections"/>
+    </genClasses>
+    <genClasses ecoreClass="maintenanceSystem.ecore#//SystemBehavior">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//SystemBehavior/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference maintenanceSystem.ecore#//SystemBehavior/monitoringrule"/>
+    </genClasses>
+    <genClasses ecoreClass="maintenanceSystem.ecore#//PinGroup">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//PinGroup/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference maintenanceSystem.ecore#//PinGroup/pins"/>
+    </genClasses>
+    <genClasses ecoreClass="maintenanceSystem.ecore#//Pin">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//Pin/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//Pin/pinNumber"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//Pin/pinType"/>
+    </genClasses>
+    <genClasses ecoreClass="maintenanceSystem.ecore#//Connection">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute maintenanceSystem.ecore#//Connection/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference maintenanceSystem.ecore#//Connection/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference maintenanceSystem.ecore#//Connection/target"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

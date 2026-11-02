@@ -1,0 +1,358 @@
+[comment encoding = UTF-8 /]
+[module generate('http://www.example.org/maintenanceSystem')]
+
+[template public generateArduino(system : MaintenanceSystem)]
+[comment @main/]
+[file (system.name.replaceAll(' ', '_') + '.ino', false, 'UTF-8')]
+// Generated Arduino code for [system.name/]
+// [system.Description/]
+
+#include <Servo.h>
+[for (board : Board | system.systemstructure.board)]
+[for (sensor : Sensor | board.machine.sensor)]
+[if (sensor.Type.toString() = 'DHT11')]
+#include <DHT.h>
+[/if]
+[/for]
+[/for]
+
+[system.generateDHTSetup()/]
+Servo myServo;
+unsigned long lastServoUpdate = 0;
+int servoPos = 0;
+int servoDirection = 2;  // 2 degrees per step
+
+[system.generateGlobalSensorVariables()/]
+[system.generateSensorReadFunctions()/]
+[system.systembehavior.generateMonitoringFunctions(system)/]
+
+void updateServo() {
+  if (millis() - lastServoUpdate >= 10) {
+    lastServoUpdate = millis();
+
+    servoPos += servoDirection;
+
+    if (servoPos >= 180) {
+      servoDirection = -2;  // Reverse
+    } else if (servoPos <= 0) {
+      servoDirection = 2;   // Forward
+    }
+
+    myServo.write(servoPos);
+  }
+}
+
+void setup() {
+  Serial.begin(9600);
+[system.generateDHTBegin()/]
+  myServo.attach(3);  // Servo on pin 3
+
+[system.generatePinSetup()/]
+
+  Serial.println("System initialized. Monitoring...");
+[system.generateDHTDelay()/]
+}
+
+void loop() {
+  updateServo();  // Non-blocking servo sweep
+
+[system.generateSensorReadCalls()/]
+[system.generateDebugPrints()/]
+[system.systembehavior.generateRuleExecutions()/]
+
+  delay([system.samplingTimeInMs/]);
+}
+[/file]
+[/template]
+
+
+[template public generateDHTSetup(system : MaintenanceSystem)]
+[for (board : Board | system.systemstructure.board)]
+[for (sensor : Sensor | board.machine.sensor)]
+[if (sensor.Type.toString() = 'DHT11')]
+[for (conn : Connection | system.systemstructure.connections
+    ->select(c | sensor.pingroups.pins->includes(c.target))
+    ->reject(c | c.target.pinType.toString() = 'GND'
+              or c.target.pinType.toString() = 'VCC_5V'
+              or c.target.pinType.toString() = 'VCC_3_3V'))]
+// DHT11 Setup - Data pin on [conn.source.pinNumber/]
+#define DHT_PIN [conn.source.pinNumber/]
+#define DHT_TYPE DHT11
+DHT dht(DHT_PIN, DHT_TYPE);
+
+[/for]
+[/if]
+[/for]
+[/for]
+[/template]
+
+
+[template public generateGlobalSensorVariables(system : MaintenanceSystem)]
+[for (board : Board | system.systemstructure.board)]
+[for (sensor : Sensor | board.machine.sensor)]
+float [sensor.name.replaceAll(' ', '_').replaceAll('-', '_').toLower()/] = 0.0;
+[/for]
+[/for]
+[/template]
+
+
+[template public generateSensorReadFunctions(system : MaintenanceSystem)]
+[for (board : Board | system.systemstructure.board)]
+[for (sensor : Sensor | board.machine.sensor)]
+[let varName : String = sensor.name.replaceAll(' ', '_').replaceAll('-', '_').toLower()]
+[let funcName : String = 'read' + sensor.name.replaceAll(' ', '').replaceAll('-', '')]
+[if (sensor.Type.toString() = 'DHT11')]
+void [funcName/]() {
+  float temp = dht.readTemperature();
+  if (isnan(temp)) {
+    Serial.println("ERROR Failed to read from DHT11 sensor!");
+    return;
+  }
+  [varName/] = temp;
+}
+
+[/if]
+[if (sensor.Type.toString() = 'DigitalTemperature')]
+[for (conn : Connection | system.systemstructure.connections
+    ->select(c | sensor.pingroups.pins->includes(c.target))
+    ->reject(c | c.target.pinType.toString() = 'GND'
+              or c.target.pinType.toString() = 'VCC_5V'
+              or c.target.pinType.toString() = 'VCC_3_3V'))]
+void [funcName/]() {
+  [varName/] = (float)digitalRead([conn.source.pinNumber/]);
+}
+
+[/for]
+[/if]
+[if (sensor.Type.toString() = 'VibrationBigSound' or sensor.Type.toString() = 'VibrationSmallSound')]
+[for (conn : Connection | system.systemstructure.connections
+    ->select(c | sensor.pingroups.pins->includes(c.target))
+    ->reject(c | c.target.pinType.toString() = 'GND'
+              or c.target.pinType.toString() = 'VCC_5V'
+              or c.target.pinType.toString() = 'VCC_3_3V'))]
+void [funcName/]() {
+  [varName/] = (float)analogRead([conn.source.pinNumber/]);
+}
+
+[/for]
+[/if]
+[/let]
+[/let]
+[/for]
+[/for]
+[/template]
+
+
+[template public generateMonitoringFunctions(behavior : SystemBehavior, system : MaintenanceSystem)]
+[for (rule : MonitoringRule | behavior.monitoringrule)]
+[let funcSuffix : String = rule.name.replaceAll(' ', '').replaceAll('-', '').replaceAll('>', '').replaceAll('<', '')]
+void check[funcSuffix/]() {
+  [if (rule.condition <> null)]
+
+    [if (rule.condition.oclIsKindOf(ThresholdCondition))]
+      [let threshold : ThresholdCondition = rule.condition.oclAsType(ThresholdCondition)]
+        [if (rule.observes->notEmpty())]
+          [let sensor : Sensor = rule.observes->first()]
+            [let varName : String = sensor.name.replaceAll(' ', '_').replaceAll('-', '_').toLower()]
+  if ([varName/] [threshold.Operator.generateOperator()/] [threshold.Threshold/]) {
+    Serial.print("[rule.triggers.Message/] - [sensor.name/]: ");
+    Serial.println([varName/]);
+    [rule.generateAlertOutputs(system)/]
+  } else {
+    [rule.generateAlertOutputsOff(system)/]
+  }
+            [/let]
+          [/let]
+        [/if]
+      [/let]
+    [/if]
+
+    [if (rule.condition.oclIsKindOf(RangeCondition))]
+      [let range : RangeCondition = rule.condition.oclAsType(RangeCondition)]
+      [/let]
+    [/if]
+
+    [if (rule.condition.oclIsKindOf(RangeCondition))]
+      [let range : RangeCondition = rule.condition.oclAsType(RangeCondition)]
+        [if (rule.observes->notEmpty())]
+          [let sensor : Sensor = rule.observes->first()]
+            [let varName : String = sensor.name.replaceAll(' ', '_').replaceAll('-', '_').toLower()]
+  if ([varName/] > [range.minRange/] && [varName/] < [range.maxRange/]) {
+    Serial.print("[rule.triggers.Message/] - [sensor.name/]: ");
+    Serial.println([varName/]);
+    [rule.generateAlertOutputs(system)/]
+  } else {
+    [rule.generateAlertOutputsOff(system)/]
+  }
+            [/let]
+          [/let]
+        [/if]
+      [/let]
+    [/if]
+
+  [/if]
+}
+[/let]
+[/for]
+[/template]
+
+[template public generateAlertOutputs(rule : MonitoringRule, system : MaintenanceSystem)]
+[if (rule.triggers <> null)]
+[if (rule.triggers.Action.toString() = 'RGB_Led')]
+[for (conn : Connection | system.systemstructure.connections
+    ->select(c | rule.triggers.pingroups.pins->includes(c.target)
+              and c.target.pinType.toString() = 'DIGITAL_OUT'))]
+[if (rule.AlertColor.toString() = 'RED' and conn.target.name.toUpperCase() = 'RED')]
+    digitalWrite([conn.source.pinNumber/], HIGH); // RED LED
+[/if]
+[if (rule.AlertColor.toString() = 'Green' and conn.target.name.toUpperCase() = 'GREEN')]
+    digitalWrite([conn.source.pinNumber/], HIGH); // Green LED
+[/if]
+[if (rule.AlertColor.toString() = 'Blue' and conn.target.name.toUpperCase() = 'BLUE')]
+    digitalWrite([conn.source.pinNumber/], HIGH); // Blue LED
+[/if]
+[/for]
+[/if]
+[if (rule.triggers.Action.toString() = 'ActiveBuzzer')]
+[for (conn : Connection | system.systemstructure.connections
+    ->select(c | rule.triggers.pingroups.pins->includes(c.target)
+              and c.target.pinType.toString() = 'DIGITAL_OUT'))]
+    digitalWrite([conn.source.pinNumber/], HIGH); // Active Buzzer
+[/for]
+[/if]
+[if (rule.triggers.Action.toString() = 'PassiveBuzzer')]
+[for (conn : Connection | system.systemstructure.connections
+    ->select(c | rule.triggers.pingroups.pins->includes(c.target)
+              and c.target.pinType.toString() = 'DIGITAL_OUT'))]
+    tone([conn.source.pinNumber/], 1000); // Passive Buzzer
+[/for]
+[/if]
+[/if]
+[/template]
+
+
+[template public generateAlertOutputsOff(rule : MonitoringRule, system : MaintenanceSystem)]
+[if (rule.triggers <> null)]
+[if (rule.triggers.Action.toString() = 'RGB_Led')]
+[for (conn : Connection | system.systemstructure.connections
+    ->select(c | rule.triggers.pingroups.pins->includes(c.target)
+              and c.target.pinType.toString() = 'DIGITAL_OUT'))]
+[if (rule.AlertColor.toString() = 'RED' and conn.target.name.toUpperCase() = 'RED')]
+    digitalWrite([conn.source.pinNumber/], LOW); // RED LED off
+[/if]
+[if (rule.AlertColor.toString() = 'Green' and conn.target.name.toUpperCase() = 'GREEN')]
+    digitalWrite([conn.source.pinNumber/], LOW); // Green LED off
+[/if]
+[if (rule.AlertColor.toString() = 'Blue' and conn.target.name.toUpperCase() = 'BLUE')]
+    digitalWrite([conn.source.pinNumber/], LOW); // Blue LED off
+[/if]
+[/for]
+[/if]
+[if (rule.triggers.Action.toString() = 'ActiveBuzzer')]
+[for (conn : Connection | system.systemstructure.connections
+    ->select(c | rule.triggers.pingroups.pins->includes(c.target)
+              and c.target.pinType.toString() = 'DIGITAL_OUT'))]
+    digitalWrite([conn.source.pinNumber/], LOW); // Active Buzzer off
+[/for]
+[/if]
+[if (rule.triggers.Action.toString() = 'PassiveBuzzer')]
+[for (conn : Connection | system.systemstructure.connections
+    ->select(c | rule.triggers.pingroups.pins->includes(c.target)
+              and c.target.pinType.toString() = 'DIGITAL_OUT'))]
+    noTone([conn.source.pinNumber/]); // Passive Buzzer off
+[/for]
+[/if]
+[/if]
+[/template]
+
+
+[template public generateRuleExecutions(behavior : SystemBehavior)]
+[for (rule : MonitoringRule | behavior.monitoringrule)]
+[if (rule.enabled)]
+  check[rule.name.replaceAll(' ', '').replaceAll('-', '').replaceAll('>', '').replaceAll('<', '')/]();
+[/if]
+[/for]
+[/template]
+
+
+[template public generateSensorReadCalls(system : MaintenanceSystem)]
+[for (board : Board | system.systemstructure.board)]
+[for (sensor : Sensor | board.machine.sensor)]
+  [('read' + sensor.name.replaceAll(' ', '').replaceAll('-', ''))/]();
+[/for]
+[/for]
+[/template]
+
+
+[template public generateDebugPrints(system : MaintenanceSystem)]
+[for (board : Board | system.systemstructure.board)]
+[for (sensor : Sensor | board.machine.sensor)]
+[let varName : String = sensor.name.replaceAll(' ', '_').replaceAll('-', '_').toLower()]
+  Serial.print("DEBUG [sensor.name/]: ");
+  Serial.print([varName/]);
+  Serial.println(" [sensor.unit/]");
+[/let]
+[/for]
+[/for]
+[/template]
+
+
+[template public generatePinSetup(system : MaintenanceSystem)]
+  // Configure sensor pins
+[for (board : Board | system.systemstructure.board)]
+[for (sensor : Sensor | board.machine.sensor)]
+[for (conn : Connection | system.systemstructure.connections
+    ->select(c | sensor.pingroups.pins->includes(c.target))
+    ->reject(c | c.target.pinType.toString() = 'GND'
+              or c.target.pinType.toString() = 'VCC_5V'
+              or c.target.pinType.toString() = 'VCC_3_3V'))]
+  pinMode([conn.source.pinNumber/], INPUT);   // [sensor.name/] on pin [conn.source.pinNumber/]
+[/for]
+[/for]
+[/for]
+
+  // Configure alert pins
+[for (alert : Alert | system.systemstructure.alert)]
+[for (conn : Connection | system.systemstructure.connections
+    ->select(c | alert.pingroups.pins->includes(c.target)
+              and c.target.pinType.toString() = 'DIGITAL_OUT'))]
+  pinMode([conn.source.pinNumber/], OUTPUT); // [alert.name/]
+[/for]
+[/for]
+
+  // Initialize all outputs to OFF
+[for (alert : Alert | system.systemstructure.alert)]
+[for (conn : Connection | system.systemstructure.connections
+    ->select(c | alert.pingroups.pins->includes(c.target)
+              and c.target.pinType.toString() = 'DIGITAL_OUT'))]
+  digitalWrite([conn.source.pinNumber/], LOW);
+[/for]
+[/for]
+[/template]
+
+
+[template public generateDHTBegin(system : MaintenanceSystem)]
+[for (board : Board | system.systemstructure.board)]
+[for (sensor : Sensor | board.machine.sensor)]
+[if (sensor.Type.toString() = 'DHT11')]
+  dht.begin();
+[/if]
+[/for]
+[/for]
+[/template]
+
+
+[template public generateDHTDelay(system : MaintenanceSystem)]
+[for (board : Board | system.systemstructure.board)]
+[for (sensor : Sensor | board.machine.sensor)]
+[if (sensor.Type.toString() = 'DHT11')]
+  delay(2000); // DHT11 needs 2s to stabilize
+[/if]
+[/for]
+[/for]
+[/template]
+
+
+[template public generateOperator(op : Operator)]
+[if (op.toString() = 'GREATER')]>[/if][if (op.toString() = 'LESS')]<[/if][if (op.toString() = 'Equal')]==[/if][if (op.toString() = 'GreaterOrEqual')]>=[/if][if (op.toString() = 'LessOrEqual')]<=[/if]
+[/template]
